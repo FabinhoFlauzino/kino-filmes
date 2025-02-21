@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors"
 
 const config: Config = {
   content: [
@@ -8,7 +9,10 @@ const config: Config = {
   ],
   safelist: [
     { pattern: /grid-cols-/ },
-    { pattern: /grid-rows-/ }
+    { pattern: /grid-rows-/ },
+    "text-center",
+    "text-left",
+    "text-right",
   ],
   theme: {
     extend: {
@@ -22,8 +26,11 @@ const config: Config = {
         }
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        ...colors,
+        red: {
+          ...colors.red,
+          kino: "#E50914"
+        }
       },
     },
   },
