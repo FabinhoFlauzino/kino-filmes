@@ -1,5 +1,5 @@
 "use client"
-import { Children, cloneElement } from "react"
+import { Children, cloneElement, useEffect, useRef, useState } from "react"
 import Container from "./Container"
 import Wrap from "./Wrap"
 import Flex from "./Flex"
@@ -11,9 +11,14 @@ interface CarrosselProps {
   slideAutomatico?: boolean
 }
 
-function BotaoLateral(props: { esquerda?: boolean, direita?: boolean, children: React.ReactNode }) {
+function BotaoLateral(props: {
+  esquerda?: boolean,
+  direita?: boolean,
+  children: React.ReactNode,
+  onClick?: () => void
+}) {
   return (
-    <button className={mergeClasses(`
+    <button onClick={props.onClick} className={mergeClasses(`
       group absolute top-0 flex h-full cursor-pointer items-center justify-center
       px-4 focus:outline-none`,
       { "left-0": props.esquerda, "right-0": props.direita }
@@ -29,18 +34,48 @@ function BotaoLateral(props: { esquerda?: boolean, direita?: boolean, children: 
 }
 
 export default function Carrossel({ children, slideAutomatico }: CarrosselProps) {
-  const indiceAtual = 0
+  const carrosselRef = useRef<HTMLDivElement | null>(null)
+  const intervaloRef = useRef()
+  const animacaoRef = useRef()
+  const [indiceAtual, setIndiceAtual] = useState(0)
   const NUMERO_DE_ITENS = children.length
+
+  function proximoSlide() {
+    setIndiceAtual((indiceAnterior: number) => {
+      return indiceAnterior === NUMERO_DE_ITENS - 1 ? 0 : indiceAnterior + 1
+    })
+  }
+
+  function slideAnterior() {
+    setIndiceAtual((indiceAnterior: number) => {
+      return indiceAnterior === 0 ? NUMERO_DE_ITENS - 1 : indiceAnterior - 1
+    })
+  }
+
+  useEffect(() => {
+    if (!carrosselRef.current) return
+
+    const filhos = Array.from(carrosselRef.current.children)
+    const largura = carrosselRef.current.offsetWidth
+
+    filhos.forEach((filho: any, indice: number) => {
+      filho.style.transform = `translateX(${(indice - indiceAtual)}px)`
+    })
+
+  }, [indiceAtual])
 
   return (
     <Wrap>
       <Container>
         <Wrap>
-          <div className="relative rounded-lg mb-5">
+          <div className="relative rounded-lg mb-5"
+            ref={carrosselRef}
+          >
             {
               Children.map(children, (filho: JSX.Element, i) => {
                 const propsFilho = filho.props
                 return cloneElement(filho, {
+                  ...propsFilho,
                   className: `${i === indiceAtual ? "" : "hidden"}`
                 })
               })
@@ -55,17 +90,18 @@ export default function Carrossel({ children, slideAutomatico }: CarrosselProps)
                     "h-3 w-3 rounded-full bg-gray-800",
                     { "bg-gray-500": i === indiceAtual }
                   )}
-                />
+                  onClick={() => setIndiceAtual(i)}
+                ></button>
               )
             })}
           </Flex>
         </Wrap>
       </Container>
-      <BotaoLateral esquerda>
+      <BotaoLateral esquerda onClick={slideAnterior}>
         <CaretLeft size={20} />
         <span className="hidden">Anterior</span>
       </BotaoLateral>
-      <BotaoLateral direita>
+      <BotaoLateral direita onClick={proximoSlide}>
         <CaretRight size={20} />
         <span className="hidden">Próximos</span>
       </BotaoLateral>
