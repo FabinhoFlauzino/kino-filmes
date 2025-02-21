@@ -35,10 +35,33 @@ function BotaoLateral(props: {
 
 export default function Carrossel({ children, slideAutomatico }: CarrosselProps) {
   const carrosselRef = useRef<HTMLDivElement | null>(null)
-  const intervaloRef = useRef()
-  const animacaoRef = useRef()
+  const intervaloRef = useRef<NodeJS.Timeout>()
+  const animacaoRef = useRef<HTMLDivElement | null>(null)
   const [indiceAtual, setIndiceAtual] = useState(0)
   const NUMERO_DE_ITENS = children.length
+  const TEMPO = 5000
+
+  function iniciarSlide() {
+    if (!slideAutomatico) return
+
+    if (animacaoRef.current) {
+      animacaoRef.current.style.display = "block"
+    }
+
+    intervaloRef.current = setInterval(() => {
+      if (animacaoRef.current) {
+        animacaoRef.current.style.display = "block"
+      }
+      proximoSlide()
+    }, TEMPO)
+  }
+
+  function pararSlide() {
+    if (animacaoRef.current) {
+      animacaoRef.current.style.display = "none"
+    }
+    return clearInterval(intervaloRef.current)
+  }
 
   function proximoSlide() {
     setIndiceAtual((indiceAnterior: number) => {
@@ -59,17 +82,24 @@ export default function Carrossel({ children, slideAutomatico }: CarrosselProps)
     const largura = carrosselRef.current.offsetWidth
 
     filhos.forEach((filho: any, indice: number) => {
-      filho.style.transform = `translateX(${(indice - indiceAtual)}px)`
+      filho.style.transform = `translateX(${(indice - indiceAtual) * largura})px`
     })
 
   }, [indiceAtual])
 
+  useEffect(() => {
+    iniciarSlide()
+    return () => pararSlide()
+  }, [NUMERO_DE_ITENS])
+
   return (
-    <Wrap>
-      <Container>
+    <Wrap className="relative">
+      <Container className="relative">
         <Wrap>
           <div className="relative rounded-lg mb-5"
             ref={carrosselRef}
+            onMouseEnter={pararSlide}
+            onMouseLeave={iniciarSlide}
           >
             {
               Children.map(children, (filho: JSX.Element, i) => {
@@ -95,6 +125,12 @@ export default function Carrossel({ children, slideAutomatico }: CarrosselProps)
               )
             })}
           </Flex>
+        </Wrap>
+
+        <Wrap className="absolute h-1 -bottom-0">
+          <div ref={animacaoRef} onAnimationEnd={() => {
+            animacaoRef.current!.style.display = "none"
+          }} className="rounded-lg h-full animate-[timer_4.8s_ease-in-out] bg-gray-800"></div>
         </Wrap>
       </Container>
       <BotaoLateral esquerda onClick={slideAnterior}>

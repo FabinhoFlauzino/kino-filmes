@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <Carrossel>
+    <Carrossel slideAutomatico>
       <p>Texto1</p>
       <p>Texto2</p>
       <p>Texto3</p>
