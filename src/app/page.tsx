@@ -1,3 +1,4 @@
+import Carrossel from "@/components/template/Carrossel";
 import Container from "@/components/template/Container";
 import Flex from "@/components/template/Flex";
 import Grid from "@/components/template/Grid";
@@ -6,15 +7,10 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <Container className="w-96 bg-yellow-400">
-      <p className="w-20 h-20 bg-red-200">p1</p>
-      <p className="w-20 h-20 bg-green-200">p2</p>
-      <p className="w-20 h-20 bg-red-200">p1</p>
-      <p className="w-20 h-20 bg-green-200">p2</p>
-      <p className="w-20 h-20 bg-red-200">p1</p>
-      <p className="w-20 h-20 bg-green-200">p2</p>
-      <p className="w-20 h-20 bg-red-200">p1</p>
-      <p className="w-20 h-20 bg-green-200">p2</p>
-    </Container>
+    <Carrossel>
+      <p>Texto1</p>
+      <p>Texto2</p>
+      <p>Texto3</p>
+    </Carrossel>
   );
 }
