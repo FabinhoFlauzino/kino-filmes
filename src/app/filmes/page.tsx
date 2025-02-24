@@ -1,4 +1,6 @@
 "use client"
+import CardFilmeEmDestque from "@/components/filmes/CardFilmeEmDestque"
+import Carrossel from "@/components/template/Carrossel"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
 import { useEffect, useState } from "react"
@@ -13,7 +15,14 @@ export default function Filmes() {
 
   return (
     <Wrap>
-      {JSON.stringify(filmes, null, 6)}
+      <Carrossel slideAutomatico>
+        {filmes.map((filme) => (
+          <CardFilmeEmDestque 
+            key={filme.id}
+            filme={filme}
+          />
+        ))}
+      </Carrossel>
     </Wrap>
   )
 }
