@@ -1,15 +1,14 @@
-import Botao from "@/components/template/Botao";
-import Carrossel from "@/components/template/Carrossel";
-import Container from "@/components/template/Container";
-import Descricao from "@/components/template/Descricao";
-import Flex from "@/components/template/Flex";
-import Grid from "@/components/template/Grid";
-import Titulo from "@/components/template/Titulo";
-import Wrap from "@/components/template/Wrap";
-import Image from "next/image";
+"use client"
+import ImagemComFallback from "@/components/template/ImagemComFallback";
+import { Hourglass } from "@phosphor-icons/react";
 
 export default function Home() {
   return (
-    <Descricao texto="Ola mundo"/>
+    <div className="relative w-96 h-96 border-2 border-green-600">
+
+      <ImagemComFallback url="" imgAlt="Imagem de fundo">
+        <Hourglass size={150} />
+      </ImagemComFallback>
+    </div>
   );
 }
