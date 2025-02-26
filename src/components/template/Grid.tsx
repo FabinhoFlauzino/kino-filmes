@@ -12,8 +12,8 @@ export default function Grid({ children, className, column, numCols, numRows = 1
   return (
     <div className={mergeClasses(
       `grid grid-rows-${numRows}`,
-      { [`grid-cols-${numCols}`]:column }
-
+      { [`grid-cols-${numCols}`]:column },
+      className
     )}>
       {children}
     </div>
