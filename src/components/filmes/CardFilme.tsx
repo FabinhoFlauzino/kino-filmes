@@ -16,7 +16,7 @@ export default function CardFilme({ filme, className }: CardFilmeProps) {
   return (
     <Wrap className={mergeClasses(
       `rounded-2xl h-60 max-h-60 bg-black border 
-      border-white/[0.2] group-hover:boder-kino relative z-20`,
+      border-white/[0.2] group-hover:border-red-kino relative z-20`,
       className
     )}
     >
