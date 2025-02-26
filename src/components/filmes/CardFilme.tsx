@@ -1,21 +1,34 @@
+import { FilmSlate } from "@phosphor-icons/react"
 import Flex from "../template/Flex"
+import ImagemComFallback from "../template/ImagemComFallback"
 import Titulo from "../template/Titulo"
 import Wrap from "../template/Wrap"
+import Generos from "./Generos"
 
 interface CardFilmeProps {
   filme: Filme
   className?: string
 }
 
-export default function CardFilme({filme, className}: CardFilmeProps) {
+export default function CardFilme({ filme, className }: CardFilmeProps) {
   return (
     <Wrap className="
         rounded-2xl h-60 max-h-60 bg-black border border-white/[0.2]
         group-hover:boder-kino relative z-20
       "
     >
+      <ImagemComFallback
+        url={filme.linkImagemFundo}
+        imgAlt={`Imagem de fundo do filme ${filme.titulo}`}
+        className="opacity-40 group-hover:opacity-15 transition-all"
+      >
+        <FilmSlate className="w-1/2 h-2/3 transition-all" />
+      </ImagemComFallback>
       <Flex col className="h-60 z-50 justify-between py-10 px-2">
-        <Titulo texto={filme.titulo} pequeno alinhar="left"/>
+        <Titulo texto={filme.titulo} pequeno alinhar="left" />
+        <Flex col className="justify-start items-start w-full">
+          <Generos idFilme={filme.id} />
+        </Flex>
       </Flex>
     </Wrap>
   )

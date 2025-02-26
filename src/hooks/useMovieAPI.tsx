@@ -28,7 +28,7 @@ export default function useMovieAPI() {
   }
 
   function formatarImagemURL(url: string) {
-    if(!url) return ""
+    if (!url) return ""
 
     return `${BG_FILME_URL}${url}`
   }
@@ -50,5 +50,16 @@ export default function useMovieAPI() {
     })
   }
 
-  return { getUltimosFilmes }
+  async function getGenerosFilme(filmeId: string) {
+    const { json } = await get(`/movie/${filmeId}`)
+
+    return json.genres.map((genero: any) => {
+      return {
+        id: genero.id,
+        nome: genero.name
+      }
+    })
+  }
+
+  return { getUltimosFilmes, getGenerosFilme }
 }
