@@ -61,5 +61,36 @@ export default function useMovieAPI() {
     })
   }
 
-  return { getUltimosFilmes, getGenerosFilme }
+  async function getFilmeDetalhado(idFilme: string): Promise<FilmeDetalhado> {
+    const { json } = await get(`/movie/${idFilme}`, "append_to_response=credits")
+
+    return {
+      id: json.id,
+      titulo: json.title,
+      descricao: json.overview,
+      linkImagemFundo: formatarImagemURL(json.backdrop_path),
+      linkImagemPoster: formatarImagemURL(json.poster_path),
+      nota: json.vote_average,
+      dataLancamento: new Date(json.release_date),
+      tituloOriginal: json.original_title,
+      generos: json.genres.map((genero: any) => {
+        return {
+          id: genero.id,
+          nome: genero.nome
+        }
+      }),
+      atores: json.credits.cast.slice(0, 10).map((ator: any) => {
+        return {
+          id: ator.id,
+          nome: ator.name,
+          imagemPerfil: formatarImagemURL(ator.profile_path),
+          personagem: ator.character
+        }
+      }),
+      duracao: json.duration
+    }
+
+  }
+
+  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado }
 }
