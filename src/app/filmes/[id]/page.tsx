@@ -2,6 +2,7 @@
 
 import CardFilmeDetalhado from "@/components/filmes/CardFilmeDetalhado"
 import Elenco from "@/components/filmes/Elenco"
+import SugestoesFilmes from "@/components/template/SugestoesFilmes"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
 import { useParams } from "next/navigation"
@@ -27,6 +28,8 @@ export default function Filme() {
           <Elenco elenco={detalheFilme.atores} />
         )
       }
+
+      <SugestoesFilmes idFilme={String(id)}/>
     </Wrap>
   )
 }

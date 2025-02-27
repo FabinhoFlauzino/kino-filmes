@@ -92,5 +92,22 @@ export default function useMovieAPI() {
 
   }
 
-  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado }
+  async function getFilmeSimilares(idFilme: string): Promise<Filme[]> {
+    const { json } = await get(`/movie/${idFilme}/similar`)
+    const selecionados = json.results.slice(0, 9)
+
+    return selecionados.map((item: any) => {
+      return {
+        id: item.id,
+        titulo: item.title,
+        descricao: item.overview,
+        linkImagemFundo: formatarImagemURL(item.backdrop_path),
+        linkImagemPoster: formatarImagemURL(item.poster_path),
+        nota: item.vote_average,
+        dataLancamento: new Date(item.release_date)
+      }
+    })
+  }
+
+  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado, getFilmeSimilares }
 }
