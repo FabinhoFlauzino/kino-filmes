@@ -1,5 +1,6 @@
 "use client"
 
+import DetalhesAtor from "@/components/ator/DetalhesAtor"
 import ImagemPerfil from "@/components/ator/ImagemPerfil"
 import Container from "@/components/template/Container"
 import Wrap from "@/components/template/Wrap"
@@ -22,6 +23,7 @@ export default function Ator() {
         ator && (
           <Container className="mt-32 md:mt-44 min-h-96 w-full" bigPadding>
             <ImagemPerfil url={ator?.imagemPerfil} imgAlt={`Imagem de ${ator?.nome}`} />
+            <DetalhesAtor ator={ator}/>
           </Container>
         )
       }
