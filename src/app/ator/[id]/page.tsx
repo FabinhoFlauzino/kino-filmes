@@ -3,6 +3,7 @@
 import Album from "@/components/ator/Album"
 import DetalhesAtor from "@/components/ator/DetalhesAtor"
 import ImagemPerfil from "@/components/ator/ImagemPerfil"
+import OutrosFilmes from "@/components/ator/OutrosFilmes"
 import Container from "@/components/template/Container"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
@@ -28,6 +29,7 @@ export default function Ator() {
       )}
 
       {ator && (<Album idAtor={String(id)} />)}
+      {ator && (<OutrosFilmes idAtor={String(id)} />)}
     </Wrap>
   )
 }

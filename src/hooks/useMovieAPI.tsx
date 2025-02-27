@@ -129,5 +129,22 @@ export default function useMovieAPI() {
     return json.profiles.map((img: any) => formatarImagemURL(img.file_path))
   }
 
-  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado, getFilmeSimilares, getAtorDetalhado, getImagemAtor }
+  async function getFilmesAtor(idAtor: string): Promise<Filme[]> {
+    const { json } = await get(`/person/${idAtor}/movie_credits`)
+    const selecionados = json.cast.slice(0, 9)
+
+    return selecionados.map((item: any) => {
+      return {
+        id: item.id,
+        titulo: item.title,
+        descricao: item.overview,
+        linkImagemFundo: formatarImagemURL(item.backdrop_path),
+        linkImagemPoster: formatarImagemURL(item.poster_path),
+        nota: item.vote_average,
+        dataLancamento: new Date(item.release_date)
+      }
+    })
+  }
+
+  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado, getFilmeSimilares, getAtorDetalhado, getImagemAtor, getFilmesAtor }
 }
