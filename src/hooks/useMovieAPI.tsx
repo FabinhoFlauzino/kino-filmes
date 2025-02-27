@@ -110,7 +110,7 @@ export default function useMovieAPI() {
   }
 
   async function getAtorDetalhado(idAtor: string): Promise<AtorDetalhado> {
-    const {json} = await get(`/person/${idAtor}`)
+    const { json } = await get(`/person/${idAtor}`)
 
     return {
       id: json.id,
@@ -121,8 +121,13 @@ export default function useMovieAPI() {
       localNascimento: json.place_of_birth,
       genero: json.gender === 1 ? "Feminino" : "Masculino"
     }
-    
+
   }
 
-  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado, getFilmeSimilares, getAtorDetalhado }
+  async function getImagemAtor(idAtor: string) {
+    const { json } = await get(`/person/${idAtor}/images`)
+    return json.profiles.map((img: any) => formatarImagemURL(img.file_path))
+  }
+
+  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado, getFilmeSimilares, getAtorDetalhado, getImagemAtor }
 }

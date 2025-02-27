@@ -1,5 +1,6 @@
 "use client"
 
+import Album from "@/components/ator/Album"
 import DetalhesAtor from "@/components/ator/DetalhesAtor"
 import ImagemPerfil from "@/components/ator/ImagemPerfil"
 import Container from "@/components/template/Container"
@@ -19,14 +20,14 @@ export default function Ator() {
 
   return (
     <Wrap>
-      {
-        ator && (
-          <Container className="mt-32 md:mt-44 min-h-96 w-full" bigPadding>
-            <ImagemPerfil url={ator?.imagemPerfil} imgAlt={`Imagem de ${ator?.nome}`} />
-            <DetalhesAtor ator={ator}/>
-          </Container>
-        )
-      }
+      {ator && (
+        <Container className="mt-32 md:mt-44 min-h-96 w-full" bigPadding>
+          <ImagemPerfil url={ator?.imagemPerfil} imgAlt={`Imagem de ${ator?.nome}`} />
+          <DetalhesAtor ator={ator} />
+        </Container>
+      )}
+
+      {ator && (<Album idAtor={String(id)} />)}
     </Wrap>
   )
 }
