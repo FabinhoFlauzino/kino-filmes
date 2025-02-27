@@ -109,5 +109,20 @@ export default function useMovieAPI() {
     })
   }
 
-  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado, getFilmeSimilares }
+  async function getAtorDetalhado(idAtor: string): Promise<AtorDetalhado> {
+    const {json} = await get(`/person/${idAtor}`)
+
+    return {
+      id: json.id,
+      nome: json.name,
+      biografia: json.biography,
+      imagemPerfil: formatarImagemURL(json.profile_path),
+      dataNascimento: new Date(json.birthday),
+      localNascimento: json.place_of_birth,
+      genero: json.gender === 1 ? "Feminino" : "Masculino"
+    }
+    
+  }
+
+  return { getUltimosFilmes, getGenerosFilme, getFilmeDetalhado, getFilmeSimilares, getAtorDetalhado }
 }
