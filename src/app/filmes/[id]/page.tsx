@@ -1,6 +1,7 @@
 "use client"
 
 import CardFilmeDetalhado from "@/components/filmes/CardFilmeDetalhado"
+import Elenco from "@/components/filmes/Elenco"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
 import { useParams } from "next/navigation"
@@ -18,9 +19,12 @@ export default function Filme() {
     <Wrap>
       {
         detalheFilme && (
-          <CardFilmeDetalhado
-            filme={detalheFilme}
-          />
+          <CardFilmeDetalhado filme={detalheFilme} />
+        )
+      }
+      {
+        detalheFilme?.atores && (
+          <Elenco elenco={detalheFilme.atores} />
         )
       }
     </Wrap>
