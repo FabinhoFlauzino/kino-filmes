@@ -8,13 +8,20 @@ import mergeClasses from "@/utils/mergeClasses"
 interface GenerosProps {
   idFilme: string
   grande?: boolean
+  generosPadrao?: Genero[]
 }
 
-export default function Generos({ idFilme, grande }: GenerosProps) {
+export default function Generos({ idFilme, grande, generosPadrao }: GenerosProps) {
   const [generos, setGeneros] = useState<Genero[]>([])
   const { getGenerosFilme } = useMovieAPI()
 
   useEffect(() => {
+
+    if (generosPadrao && generosPadrao.length > 0) {
+      setGeneros(generosPadrao)
+      return
+    }
+
     getGenerosFilme(idFilme).then(setGeneros)
   }, [])
 

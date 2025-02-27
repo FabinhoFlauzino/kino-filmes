@@ -1,5 +1,6 @@
 "use client"
 
+import CardFilmeDetalhado from "@/components/filmes/CardFilmeDetalhado"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
 import { useParams } from "next/navigation"
@@ -15,7 +16,13 @@ export default function Filme() {
   }, [])
   return (
     <Wrap>
-      {JSON.stringify(detalheFilme)}
+      {
+        detalheFilme && (
+          <CardFilmeDetalhado
+            filme={detalheFilme}
+          />
+        )
+      }
     </Wrap>
   )
 }

@@ -87,7 +87,7 @@ export default function useMovieAPI() {
           personagem: ator.character
         }
       }),
-      duracao: json.duration
+      duracao: json.runtime
     }
 
   }
