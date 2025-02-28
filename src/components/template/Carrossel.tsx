@@ -16,10 +16,12 @@ function BotaoLateral(props: {
   direita?: boolean,
   children: React.ReactNode,
   onClick?: () => void
+  onMouseEnter: () => void
+  onMouseLeave: () => void
 }) {
   return (
     <button onClick={props.onClick} className={mergeClasses(`
-      group absolute top-0 flex h-full cursor-pointer items-center justify-center
+      group absolute top-0 flex h-1/2 lg:h-full cursor-pointer items-center justify-center
       px-4 focus:outline-none`,
       { "left-0": props.esquerda, "right-0": props.direita }
     )}>
@@ -94,7 +96,7 @@ export default function Carrossel({ children, slideAutomatico }: CarrosselProps)
 
   return (
     <Wrap className="relative">
-      <Container className="relative">
+      <Container className="relative w-5/6">
         <Wrap>
           <div className="relative rounded-lg mb-5"
             ref={carrosselRef}
@@ -133,11 +135,11 @@ export default function Carrossel({ children, slideAutomatico }: CarrosselProps)
           }} className="rounded-lg h-full animate-[timer_4.8s_ease-in-out] bg-gray-800"></div>
         </Wrap>
       </Container>
-      <BotaoLateral esquerda onClick={slideAnterior}>
+      <BotaoLateral esquerda onClick={slideAnterior} onMouseEnter={pararSlide} onMouseLeave={iniciarSlide}>
         <CaretLeft size={20} />
         <span className="hidden">Anterior</span>
       </BotaoLateral>
-      <BotaoLateral direita onClick={proximoSlide}>
+      <BotaoLateral direita onClick={proximoSlide} onMouseEnter={pararSlide} onMouseLeave={iniciarSlide}>
         <CaretRight size={20} />
         <span className="hidden">Próximos</span>
       </BotaoLateral>

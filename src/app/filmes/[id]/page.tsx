@@ -1,35 +1,19 @@
-"use client"
-
 import CardFilmeDetalhado from "@/components/filmes/CardFilmeDetalhado"
 import Elenco from "@/components/filmes/Elenco"
-import SugestoesFilmes from "@/components/template/SugestoesFilmes"
+import SugestoesFilmes from "@/components/filmes/SugestoesFilmes"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
-import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
 
-export default function Filme() {
-  const { id } = useParams()
-  const [detalheFilme, setDetalheFilme] = useState<FilmeDetalhado | null>(null)
+export default async function Filme(props: any) {
+  const { id } = props.params
   const { getFilmeDetalhado } = useMovieAPI()
+  const detalheFilme: FilmeDetalhado = await getFilmeDetalhado(String(id))
 
-  useEffect(() => {
-    getFilmeDetalhado(String(id)).then(setDetalheFilme)
-  }, [])
   return (
     <Wrap>
-      {
-        detalheFilme && (
-          <CardFilmeDetalhado filme={detalheFilme} />
-        )
-      }
-      {
-        detalheFilme?.atores && (
-          <Elenco elenco={detalheFilme.atores} />
-        )
-      }
-
-      <SugestoesFilmes idFilme={String(id)}/>
+      <CardFilmeDetalhado filme={detalheFilme} />
+      <Elenco elenco={detalheFilme.atores} />
+      <SugestoesFilmes idFilme={String(id)} />
     </Wrap>
   )
 }

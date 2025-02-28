@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import Titulo from "../template/Titulo"
 import Wrap from "../template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
@@ -11,22 +10,17 @@ interface AlbumProps {
   idAtor: string
 }
 
-export default function Album({ idAtor }: AlbumProps) {
-  const [imagens, setImagens] = useState<string[][]>([])
+export default async function Album({ idAtor }: AlbumProps) {
   const { getImagemAtor } = useMovieAPI()
+  const imagemResposta = await getImagemAtor(idAtor)
+  
+  const imagensPorSlides = 3
+  let imagensRestantes = imagemResposta
+  const imagens = []
 
-  useEffect(() => {
-    getImagemAtor(idAtor).then((imagens) => {
-      const imagensPorSlides = 3
-      let imagensRestantes = imagens
-      const resultado = []
-
-      while (imagensRestantes.length >= imagensPorSlides) {
-        resultado.push(imagensRestantes.splice(0, imagensPorSlides))
-      }
-      setImagens(resultado)
-    })
-  }, [])
+  while (imagensRestantes.length >= imagensPorSlides) {
+    imagens.push(imagensRestantes.splice(0, imagensPorSlides))
+  }
 
   if (imagens.length <= 0) return
 

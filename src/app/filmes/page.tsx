@@ -1,18 +1,12 @@
-"use client"
 import CardFilmeEmDestque from "@/components/filmes/CardFilmeEmDestque"
 import ListaFilmes from "@/components/filmes/ListaFilmes"
 import Carrossel from "@/components/template/Carrossel"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
-import { useEffect, useState } from "react"
 
-export default function Filmes() {
-  const [filmes, setFilmes] = useState<Filme[]>([])
+export default async function Filmes() {
   const { getUltimosFilmes } = useMovieAPI()
-
-  useEffect(() => {
-    getUltimosFilmes().then(setFilmes)
-  }, [])
+  const filmes: Filme[] = await getUltimosFilmes()
 
   return (
     <Wrap>

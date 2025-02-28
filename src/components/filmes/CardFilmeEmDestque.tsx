@@ -15,7 +15,7 @@ export default function CardFilmeEmDestque({ filme, className }: CardFilmeEmDest
   return (
     <Container className={className}>
       <Flex className="gap-8 flex-col-reverse lg:flex-row">
-        <Flex col className="flex-1 items-start">
+        <Flex col className="flex-1 items-start px-4">
           <Titulo alinhar="left" texto={filme.titulo} />
           <Descricao texto={filme.descricao} className="text-xl text-justify" />
           <Link href={`/filmes/${filme.id}`} className="px-3 py-3 bg-red-kino font-semibold rounded-lg hover:brightness-75">Mais Detalhes</Link>

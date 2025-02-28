@@ -1,5 +1,3 @@
-"use client"
-
 import Album from "@/components/ator/Album"
 import DetalhesAtor from "@/components/ator/DetalhesAtor"
 import ImagemPerfil from "@/components/ator/ImagemPerfil"
@@ -7,29 +5,21 @@ import OutrosFilmes from "@/components/ator/OutrosFilmes"
 import Container from "@/components/template/Container"
 import Wrap from "@/components/template/Wrap"
 import useMovieAPI from "@/hooks/useMovieAPI"
-import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
 
-export default function Ator() {
-  const [ator, setAtor] = useState<AtorDetalhado | null>(null)
-  const { id } = useParams()
+export default async function Ator(props: any) {
+  const { id } = props.params
   const { getAtorDetalhado } = useMovieAPI()
-
-  useEffect(() => {
-    getAtorDetalhado(String(id)).then(setAtor)
-  }, [])
+  const ator: AtorDetalhado = await getAtorDetalhado(id)
 
   return (
     <Wrap>
-      {ator && (
-        <Container className="mt-32 md:mt-44 min-h-96 w-full" bigPadding>
-          <ImagemPerfil url={ator?.imagemPerfil} imgAlt={`Imagem de ${ator?.nome}`} />
-          <DetalhesAtor ator={ator} />
-        </Container>
-      )}
 
-      {ator && (<Album idAtor={String(id)} />)}
-      {ator && (<OutrosFilmes idAtor={String(id)} />)}
+      <Container className="mt-32 md:mt-44 min-h-96 w-full" bigPadding>
+        <ImagemPerfil url={ator?.imagemPerfil} imgAlt={`Imagem de ${ator?.nome}`} />
+        <DetalhesAtor ator={ator} />
+      </Container>
+      <Album idAtor={String(id)} />
+      <OutrosFilmes idAtor={String(id)} />
     </Wrap>
   )
 }
